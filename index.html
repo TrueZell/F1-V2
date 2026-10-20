@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Abu Dhabi GP">
+<title>🏎️ Abu Dhabi GP 2026</title>
+<style>
+:root{--bg:#090d13;--card:#141c27;--line:#2b3747;--text:#f5f7fa;--muted:#9aa6b5;--good:#8fe388;--accent:#e7ebef}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;padding-bottom:calc(78px + env(safe-area-inset-bottom))}
+.wrap{max-width:720px;margin:auto;padding:14px}.hero{padding:20px 17px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,#172130,#0f151e)}
+h1{font-size:30px;line-height:1.05;margin:5px 0}.muted{color:var(--muted)}.count{font-size:34px;font-weight:850;margin-top:16px;letter-spacing:-1px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:15px}.big{font-size:20px;font-weight:800;margin:4px 0}.good{color:var(--good)}
+.nav{position:fixed;z-index:10;left:0;right:0;bottom:0;padding:8px 7px calc(8px + env(safe-area-inset-bottom));background:#0b1018ee;border-top:1px solid var(--line);backdrop-filter:blur(18px);display:flex;justify-content:space-around;overflow-x:auto}.nav button{background:transparent;border:0;color:var(--muted);min-width:66px;padding:5px 4px;font-size:10px}.nav button b{display:block;font-size:21px;line-height:22px}.nav button.active{color:#fff}
+.section{display:none}.section.active{display:block}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}label{display:block;font-size:12px;color:var(--muted);margin:8px 0}input,textarea,select{width:100%;background:#0c131c;border:1px solid #354255;border-radius:10px;color:#fff;padding:11px;font:inherit;margin-top:5px}textarea{min-height:100px;resize:vertical}.btn{width:100%;padding:13px;border-radius:11px;border:1px solid #445267;background:#202b3a;color:#fff;font-weight:700;margin-top:9px}.btn.primary{background:#e8edf2;color:#111820}
+.day{display:grid;grid-template-columns:55px 1fr auto;gap:8px;align-items:center;padding:11px 0;border-bottom:1px solid #263140}.day:last-child{border-bottom:0}.pill{font-size:10px;background:#283548;padding:4px 7px;border-radius:99px}.check{padding:8px 0;border-bottom:1px solid #263140}.check input{width:auto;margin:0 8px 0 0}.progress{height:9px;background:#283342;border-radius:99px;overflow:hidden}.progress div{height:100%;background:#e6ebef;width:0}.total{font-size:26px;font-weight:850}.toast{position:fixed;z-index:20;top:calc(12px + env(safe-area-inset-top));left:50%;transform:translateX(-50%);background:#e8edf2;color:#10151c;border-radius:99px;padding:9px 14px;display:none;font-weight:700}
+@media(max-width:380px){.grid,.row{grid-template-columns:1fr}.count{font-size:29px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<div class="muted">🦝 TRIP COMMAND CENTER</div>
+<h1>🏎️ ABU DHABI GP 2026</h1>
+<div class="muted">01–08 DEC · DUBAI BASE · YAS MARINA</div>
+<div id="count" class="count">—</div><div class="muted">до старта миссии</div>
+</header>
+
+<section id="home" class="section active">
+<div class="grid">
+<div class="card"><div class="muted">🎫 West Club</div><div class="big">W07 · D · 29</div><div>AED 3,695</div></div>
+<div class="card"><div class="muted">🏨 Base</div><div class="big" id="hcard">AVANI</div><div id="hroom">Dubai</div></div>
+<div class="card"><div class="muted">✈️ Flight</div><div class="big" id="fcard">~46,500 ₽</div><div>30 kg</div></div>
+<div class="card"><div class="muted">🏎 Race</div><div class="big">03–06 Dec</div><div class="good">CONFIRMED</div></div>
+</div>
+<div class="card" style="margin-top:10px"><h2>🎯 Mission progress</h2><div class="progress"><div id="mp"></div></div><p class="muted" id="mpt">0%</p></div>
+</section>
+
+<section id="travel" class="section">
+<div class="card"><h2>✈️ Travel</h2><div class="row">
+<label>Airline<input data-k="airline"></label><label>Flight, ₽<input data-k="flight" type="number"></label>
+</div><div class="row"><label>Baggage<input data-k="baggage"></label><label>Arrival<input data-k="arrival"></label></div>
+<label>Transport notes<textarea data-k="transport"></textarea></label></div>
+<div class="card" style="margin-top:10px"><h2>🗓 Timeline</h2><div id="timeline"></div></div>
+</section>
+
+<section id="hotel" class="section">
+<div class="card"><h2>🏨 Dubai Base</h2>
+<label>Hotel<input data-k="hotel"></label><label>Room<input data-k="room"></label>
+<div class="row"><label>Cost, $<input data-k="hotelUsd" type="number" step=".01"></label><label>Cancel until<input data-k="cancel"></label></div>
+<label>Notes<textarea data-k="hotelNotes"></textarea></label></div>
+<div class="card" style="margin-top:10px"><h2>🆘 Backup</h2><label>Bologna backup<input data-k="backup"></label><label>Decision date<input data-k="backupDate"></label></div>
+</section>
+
+<section id="race" class="section">
+<div class="card"><h2>🏎️ Race HQ</h2><p><b>West Club · 4 Day</b><br>W07 · Row D · Seat 29</p><p><b>Yas Marina Circuit</b><br>Abu Dhabi</p>
+<label>Kimi status<input data-k="kimi"></label><label>Pit Wall notes<textarea data-k="raceNotes"></textarea></label></div>
+<div class="card" style="margin-top:10px"><h2>🏁 Race week</h2>
+<div id="raceweek"></div></div>
+</section>
+
+<section id="budget" class="section">
+<div class="card"><h2>💰 Budget</h2>
+<div class="row"><label>Flight, ₽<input data-k="flight" type="number"></label><label>Hotel, $<input data-k="hotelUsd" type="number"></label></div>
+<div class="row"><label>Ticket, AED<input data-k="ticket" type="number"></label><label>Food+transport, $<input data-k="daily" type="number"></label></div>
+<div class="row"><label>USD→₽<input data-k="usd" type="number" step=".01"></label><label>AED→₽<input data-k="aed" type="number" step=".01"></label></div>
+<hr style="border-color:#2b3747"><div class="muted">Approx. total</div><div class="total" id="total">—</div>
+</div></section>
+
+<section id="pack" class="section">
+<div class="card"><h2>🧳 Packing</h2><div class="progress"><div id="pp"></div></div><p class="muted" id="ppt">0%</p><div id="packs"></div></div>
+</section>
+
+<section id="more" class="section">
+<div class="card"><h2>📝 Notes</h2><textarea data-k="notes" style="min-height:220px" placeholder="Рестораны, идеи, брони, что не забыть…"></textarea>
+<button class="btn primary" onclick="save()">💾 Save</button><button class="btn" onclick="resetAll()">↺ Reset</button></div>
+<div class="card" style="margin-top:10px"><h3>ℹ️ Как работает</h3><p class="muted">Все изменения сохраняются локально в Safari на этом устройстве.</p></div>
+</section>
+</div>
+
+<nav class="nav">
+<button class="active" data-s="home"><b>🏠</b>Главная</button>
+<button data-s="travel"><b>✈️</b>Travel</button>
+<button data-s="hotel"><b>🏨</b>Hotel</button>
+<button data-s="race"><b>🏎️</b>Race</button>
+<button data-s="budget"><b>💰</b>Budget</button>
+<button data-s="pack"><b>🧳</b>Pack</button>
+<button data-s="more"><b>•••</b>More</button>
+</nav>
+<div id="toast" class="toast">Saved ✓</div>
+
+<script>
+const D={airline:"Turkish Airlines",flight:46500,baggage:"30 kg",arrival:"Abu Dhabi → Dubai",transport:"",hotel:"AVANI Ibn Battuta Dubai Hotel",room:"Superior Room · breakfast included",hotelUsd:590.62,cancel:"30 Nov 2026",hotelNotes:"Free cancellation until 30 Nov 2026.",backup:"Orchidea Stazione · Bologna",backupDate:"16 Nov 2026",ticket:3695,daily:350,usd:80,aed:22,kimi:"Championship watch — update after each session.",raceNotes:"",notes:""};
+let d={...D,...JSON.parse(localStorage.getItem("adgp3")||"{}")};
+const items=["Паспорт","Билеты / брони","Страховка","Dubai ↔ Yas transport","Зарядки / power bank","F1 outfit","Удобная обувь","SPF / косметичка","Лёгкая одежда","Слой для кондиционеров"];
+let ck=JSON.parse(localStorage.getItem("adgp3ck")||"{}");
+const days=[["01.12","✈️ Moscow → Abu Dhabi → Dubai","TRAVEL"],["02.12","🌴 Dubai · easy day","DUBAI"],["03.12","🏎️ GP Thursday · West Club","RACE"],["04.12","🏎️ Friday · FP1 / FP2","RACE"],["05.12","🔥 Saturday · FP3 / Qualifying","RACE"],["06.12","🏆 Sunday · RACE DAY","RACE"],["07.12","🌴 Dubai · aftermath","DUBAI"],["08.12","✈️ Dubai → Moscow","HOME"]];
+const $=x=>document.getElementById(x);
+function persist(){localStorage.setItem("adgp3",JSON.stringify(d));localStorage.setItem("adgp3ck",JSON.stringify(ck))}
+function save(){persist();$("toast").style.display="block";setTimeout(()=>$("toast").style.display="none",1000);update()}
+function resetAll(){if(confirm("Сбросить все данные?")){localStorage.removeItem("adgp3");localStorage.removeItem("adgp3ck");location.reload()}}
+document.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));$(b.dataset.s).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");scrollTo(0,0)});
+function bind(){document.querySelectorAll("[data-k]").forEach(e=>{e.value=d[e.dataset.k]??"";e.oninput=()=>{d[e.dataset.k]=e.value;persist();update()}})}
+function update(){ $("hcard").textContent=(d.hotel||"AVANI").split(" Hotel")[0];$("hroom").textContent=d.room||"Dubai";$("fcard").textContent="~"+Number(d.flight||0).toLocaleString("ru-RU")+" ₽";let t=(+d.flight||0)+((+d.hotelUsd||0)+(+d.daily||0))*(+d.usd||0)+(+d.ticket||0)*(+d.aed||0);$("total").textContent=t.toLocaleString("ru-RU",{maximumFractionDigits:0})+" ₽";let n=items.filter((_,i)=>ck[i]).length,p=n/items.length*100;$("pp").style.width=p+"%";$("ppt").textContent=Math.round(p)+"%";$("mp").style.width=p+"%";$("mpt").textContent=Math.round(p)+"% complete"}
+$("timeline").innerHTML=days.map(x=>`<div class="day"><b>${x[0]}</b><span>${x[1]}</span><span class="pill">${x[2]}</span></div>`).join("");
+$("raceweek").innerHTML=days.slice(2,6).map(x=>`<div class="day"><b>${x[0]}</b><span>${x[1]}</span><span class="pill">${x[2]}</span></div>`).join("");
+$("packs").innerHTML=items.map((x,i)=>`<div class="check"><label><input type="checkbox" data-i="${i}" ${ck[i]?"checked":""}>${x}</label></div>`).join("");
+document.querySelectorAll("[data-i]").forEach(e=>e.onchange=()=>{ck[e.dataset.i]=e.checked;save()});
+bind();update();
+function tick(){let ms=new Date("2026-12-01T00:00:00")-new Date();if(ms<=0){$("count").textContent="🚀 MISSION ACTIVE";return}let dd=Math.floor(ms/864e5),hh=Math.floor(ms/36e5)%24,mm=Math.floor(ms/6e4)%60,ss=Math.floor(ms/1e3)%60;$("count").textContent=`T−${dd}d ${String(hh).padStart(2,"0")}:${String(mm).padStart(2,"0")}:${String(ss).padStart(2,"0")}`}
+tick();setInterval(tick,1000);
+</script>
+</body>
+</html>
